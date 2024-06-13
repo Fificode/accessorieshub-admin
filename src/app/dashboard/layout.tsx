@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import LeftSideBar from "../components/layout/LeftSideBar";
+import TopBar from "../components/layout/TopBar";
 
-
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Accessories Hub Dashboard page",
@@ -15,9 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
+        <div className="flex max-lg:flex-col">
         <LeftSideBar/>
-        {children}
+        <TopBar/>
+       <div className="flex-1"> {children}</div>
+        </div>
         </body>
     </html>
   );
