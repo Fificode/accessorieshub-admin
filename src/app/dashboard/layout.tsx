@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import LeftSideBar from "../components/layout/LeftSideBar";
 import TopBar from "../components/layout/TopBar";
+import ToasterProvider from "../lib/ToasterProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ToasterProvider/>
         <div className="flex max-lg:flex-col">
         <LeftSideBar/>
         <TopBar/>

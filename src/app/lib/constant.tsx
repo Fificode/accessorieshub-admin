@@ -15,7 +15,7 @@ export const navLinks = [
     },
     {
         id: 2,
-     link: '/collections',
+     link: '/dashboard/collections',
      icon: <Shapes/>,
      label: 'Collections'   
     },

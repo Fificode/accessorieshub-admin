@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUpload from "../custom-ui/ImageUpload";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   title: z.string().min(2).max(20),
@@ -29,6 +30,8 @@ type Props = {};
 
 const CollectionForm = (props: Props) => {
   const router = useRouter();
+const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,7 +42,28 @@ const CollectionForm = (props: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+   try {
+setLoading(true);
+const res = await fetch("/api/collections",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  }
+)
+
+if(res.ok){
+  setLoading(false);
+  toast.success("Collection created");
+router.push("/dashboard/collections");
+}
+   }
+   catch(err){
+console.log("[collections_POST]", err);
+toast.error("Something went wrong, Please try again");
+   }
   };
   return (
     <div className="p-10 min-h-screen ">
@@ -91,8 +115,8 @@ const CollectionForm = (props: Props) => {
             )}
           />
           <div className="flex gap-10">
-          <Button type="submit" className="bg-[#64330D] text-white text-[16px] leading-[11px] rounded-[5px]">Submit</Button>
-          <Button type="button" className="bg-[#64330D] text-white text-[16px] leading-[11px] rounded-[5px]" onClick={() => router.push("/collections")}>Discard</Button>
+          <Button type="submit" className="bg-[#64330D] text-white text-[16px] leading-[11px] rounded-[5px] hover:bg-[#303030]">Submit</Button>
+          <Button type="button" className="bg-[#64330D] text-white text-[16px] leading-[11px] rounded-[5px] hover:bg-[#303030]" onClick={() => router.push("/collections")}>Discard</Button>
           </div>
         </form>
       </Form>

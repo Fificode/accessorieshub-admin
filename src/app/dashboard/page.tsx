@@ -2,12 +2,12 @@ import React from 'react'
 
 type Props = {}
 
-const page = (props: Props) => {
+const Dashboard = (props: Props) => {
   return (
     <div className=''>
-
+Dashboard Page
     </div>
   )
 }
 
-export default page
+export default Dashboard
