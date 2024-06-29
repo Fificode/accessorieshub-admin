@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
-    console.log('User id:', user?.id);
+    console.log("User id:", user?.id);
 
     if (!user?.id) {
       return new NextResponse("Unauthorized", { status: 403 });
@@ -38,6 +38,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(newCollection, { status: 200 });
   } catch (err) {
     console.log("[collections_POST]", err);
+    return new NextResponse("Internal server error", { status: 500 });
+  }
+}
+
+export const GET = async (req: NextRequest) => {
+  try {
+    console.log("Attempting to connect to MongoDB...");
+    await connectToDB();
+
+    const collections = await Collection.find().sort({ createdAt: "desc" });
+    return NextResponse.json(collections, { status: 200 });
+  } catch (err) {
+    console.log("[collections_GET]", err);
     return new NextResponse("Internal server error", { status: 500 });
   }
 };
