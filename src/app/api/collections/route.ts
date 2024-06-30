@@ -7,10 +7,10 @@ export async function POST(req: NextRequest) {
   try {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
-    console.log("User id:", user?.id);
+    // console.log("User id:", user?.id);
 
     if (!user?.id) {
-      return new NextResponse("Unauthorized", { status: 403 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
     console.log("Attempting to connect to MongoDB...");
     await connectToDB();
