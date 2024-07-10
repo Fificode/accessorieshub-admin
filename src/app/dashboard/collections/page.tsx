@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Separator } from '@/components/ui/separator'
 import { useRouter } from "next/navigation";
+import Loader from "../../components/custom-ui/Loader";
 
 type Props = {};
 
@@ -19,6 +20,12 @@ const Collections = (props: Props) => {
       const res = await fetch("/api/collections", {
         method: "GET",
       });
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`[collections_GET] Server error: ${errorText}`);
+        setLoading(false);
+        return;
+      }
       const data = await res.json();
       setCollections(data);
       setLoading(false);
@@ -30,6 +37,10 @@ const Collections = (props: Props) => {
   useEffect(() => {
     getCollections();
   }, []);
+
+  if(loading){
+    return <Loader/>
+  }
 
   return (
     <div className="px-10 py-5">
