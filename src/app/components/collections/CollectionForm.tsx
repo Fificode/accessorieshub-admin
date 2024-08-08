@@ -47,6 +47,12 @@ const [loading, setLoading] = useState(false);
     },
   });
 
+ const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
+  if(e.key === "Enter"){
+    e.preventDefault();
+  }
+ }
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
    try {
 setLoading(true);
@@ -92,7 +98,7 @@ toast.error("Something went wrong, Please try again");
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Title" {...field} />
+                  <Input placeholder="Title" {...field} onKeyDown={handleKeyPress}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,7 +111,7 @@ toast.error("Something went wrong, Please try again");
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Description" {...field} rows={5} />
+                  <Textarea placeholder="Description" {...field} rows={5} onKeyDown={handleKeyPress}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
